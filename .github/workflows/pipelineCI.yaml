@@ -1,4 +1,4 @@
-name: CI/CD pipeline
+name: CI pipeline
 
 on: push
 
@@ -42,7 +42,12 @@ jobs:
           pipenv install --dev
       
       - name: Run static analysis
-        run: pipenv run flake8  #TODO: add black and bandit
+      # black just checks that formatting is respected but wont reformat
+      # bandit -r is for recursivity
+        run: |
+          pipenv run flake8
+          pipenv run black --check .  
+          pipenv run bandit -r . 
 
   build-and-push-docker-image:
     needs: static-analysis
