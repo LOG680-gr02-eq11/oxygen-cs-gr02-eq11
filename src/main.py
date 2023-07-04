@@ -4,8 +4,9 @@ import requests
 import json
 import time
 
+
 class Main:
-    
+
     def __init__(self):
         self._hub_connection = None
         self.HOST = None  # Setup your host here
