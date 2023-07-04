@@ -78,7 +78,7 @@ class Main:
         try:
             # To implement
             pass
-        except requests.exceptions.RequestException as _e:
+        except requests.exceptions.RequestException:
             # To implement
             pass
 
@@ -86,4 +86,3 @@ class Main:
 if __name__ == "__main__":
     main = Main()
     main.start()
-    
