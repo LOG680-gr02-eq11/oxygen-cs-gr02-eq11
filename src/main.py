@@ -6,7 +6,6 @@ import time
 
 
 class Main:
-
     def __init__(self):
         self._hub_connection = None
         self.HOST = None  # Setup your host here
@@ -50,8 +49,9 @@ class Main:
         self._hub_connection.on("ReceiveSensorData", self.onSensorDataReceived)
         self._hub_connection.on_open(lambda: print("||| Connection opened."))
         self._hub_connection.on_close(lambda: print("||| Connection closed."))
-        self._hub_connection.on_error(lambda data: print(
-            f"||| An exception was thrown closed: {data.error}"))
+        self._hub_connection.on_error(
+            lambda data: print(f"||| An exception was thrown closed: {data.error}")
+        )
 
     def onSensorDataReceived(self, data):
         try:
@@ -70,8 +70,7 @@ class Main:
             self.sendActionToHvac(date, "TurnOnHeater", self.TICKETS)
 
     def sendActionToHvac(self, date, action, nbTick):
-        r = requests.get(
-            f"{self.HOST}/api/hvac/{self.TOKEN}/{action}/{nbTick}")
+        r = requests.get(f"{self.HOST}/api/hvac/{self.TOKEN}/{action}/{nbTick}")
         details = json.loads(r.text)
         print(details)
 
