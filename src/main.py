@@ -65,7 +65,7 @@ class Main:
 
     def sendActionToHvac(self, date, action, nbTick):
         r = requests.get(
-            f"{self.HOST}/api/hvac/{self.TOKEN}/{action}/{nbTick}")
+            f"{self.HOST}/api/hvac/{self.TOKEN}/{action}/{nbTick}", timeout=5)
         details = json.loads(r.text)
         print(details)
 
