@@ -8,12 +8,12 @@ import time
 class Main:
     def __init__(self):
         self._hub_connection = None
-        self.HOST = None  # Setup your host here
-        self.TOKEN = None  # Setup your token here
-        self.TICKETS = None  # Setup your tickets here
-        self.T_MAX = None  # Setup your max temperature here
-        self.T_MIN = None  # Setup your min temperature here
-        self.DATABASE = None  # Setup your database here
+        self.HOST = "http://34.95.34.5"  # Setup your host here
+        self.TOKEN = "0FagpkvF4B"  # Setup your token here
+        self.TICKETS = "5"  # Setup your tickets here
+        self.T_MAX = "35"  # Setup your max temperature here
+        self.T_MIN = "10"  # Setup your min temperature here
+        self.DATABASE = "postgresql://postgres:postgres@localhost:5432/postgres"  # Setup your database here
 
     def __del__(self):
         if self._hub_connection != None:
