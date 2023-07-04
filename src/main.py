@@ -82,7 +82,6 @@ class Main:
             # To implement
             pass
 
-
 if __name__ == "__main__":
     main = Main()
     main.start()
