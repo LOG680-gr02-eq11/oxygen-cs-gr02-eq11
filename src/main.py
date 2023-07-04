@@ -16,7 +16,7 @@ class Main:
         self.DATABASE = None  # Setup your database here
 
     def __del__(self):
-        if self._hub_connection != None:
+        if self._hub_connection is not None:
             self._hub_connection.stop()
 
     def setup(self):
