@@ -3,20 +3,21 @@ import logging
 import requests
 import json
 import time
+import os
 
 
 class Main:
     def __init__(self):
         self._hub_connection = None
-        self.HOST = "http://34.95.34.5"  # Setup your host here
-        self.TOKEN = "0FagpkvF4B"  # Setup your token here
-        self.TICKETS = "5"  # Setup your tickets here
-        self.T_MAX = "35"  # Setup your max temperature here
-        self.T_MIN = "10"  # Setup your min temperature here
-        self.DATABASE = "postgresql://postgres:postgres@localhost:5432/postgres"  # Setup your database here
+        self.HOST = os.environ.get("APP_HOST", "http://34.95.34.5")
+        self.TOKEN = os.environ.get("APP_TOKEN", "0FagpkvF4B")
+        self.TICKETS = os.environ.get("APP_TICKETS", "5")
+        self.T_MAX = os.environ.get("APP_MAX_TEMPERATURE", "35")
+        self.T_MIN = os.environ.get("APP_MIN_TEMPERATURE", "10")
+        self.DATABASE = os.environ.get("APP_DATABASE", "postgresql://postgres:postgres@localhost:5432/postgres")
 
     def __del__(self):
-        if self._hub_connection != None:
+        if self._hub_connection is not None:
             self._hub_connection.stop()
 
     def setup(self):
