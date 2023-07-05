@@ -81,4 +81,4 @@ jobs:
           push: true
           tags: |
             oxygencsequipe11/oxygen-cs:latest
-             oxygencsequipe11/oxygen-cs:${{ github.run_id }}
+            oxygencsequipe11/oxygen-cs:${{ github.run_id }}
