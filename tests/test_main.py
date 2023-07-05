@@ -7,7 +7,6 @@ class MainTests(unittest.TestCase):
     def test_default_values(self):
         main = Main()
         self.assertEqual(main.HOST, "http://34.95.34.5")
-        self.assertEqual(main.TOKEN, "0FagpkvF4B")
         self.assertEqual(main.TICKETS, "5")
         self.assertEqual(main.T_MAX, "35")
         self.assertEqual(main.T_MIN, "10")

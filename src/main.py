@@ -26,11 +26,11 @@ class Main:
         self.setSensorHub()
 
     def start(self):
-        self.setup()
-        self._hub_connection.start()
-
         if self.TOKEN is None:
             raise Exception("The token variable is empty.")
+
+        self.setup()
+        self._hub_connection.start()
 
         print("Press CTRL+C to exit.")
         while True:
