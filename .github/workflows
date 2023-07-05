@@ -1,0 +1,19 @@
+name: My CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    env: # Defining environment variables using GitHub secrets
+      APP_TOKEN: ${{ secrets.APP_TOKEN }}
+      APP_TICKETS: ${{ secrets.APP_TICKETS }}
+      APP_MAX_TEMPERATURE: ${{ secrets.APP_MAX_TEMPERATURE }}
+      APP_MIN_TEMPERATURE: ${{ secrets.APP_MIN_TEMPERATURE }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
