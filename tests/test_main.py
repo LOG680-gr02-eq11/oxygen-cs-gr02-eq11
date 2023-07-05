@@ -11,7 +11,9 @@ class MainTests(unittest.TestCase):
         self.assertEqual(main.TICKETS, "5")
         self.assertEqual(main.T_MAX, "35")
         self.assertEqual(main.T_MIN, "10")
-        self.assertEqual(main.DATABASE, "postgresql://postgres:postgres@localhost:5432/postgres")
+        self.assertEqual(
+            main.DATABASE, "postgresql://postgres:postgres@localhost:5432/postgres"
+        )
 
     def test_custom_values(self):
         # Save original environment variables to restore them later
@@ -23,7 +25,9 @@ class MainTests(unittest.TestCase):
         os.environ["APP_TICKETS"] = "10"
         os.environ["APP_MAX_TEMPERATURE"] = "40"
         os.environ["APP_MIN_TEMPERATURE"] = "5"
-        os.environ["APP_DATABASE"] = "postgresql://postgres:postgres@localhost:5432/postgres"
+        os.environ[
+            "APP_DATABASE"
+        ] = "postgresql://postgres:postgres@localhost:5432/postgres"
 
         # Initialize the main class
         main = Main()
@@ -34,7 +38,9 @@ class MainTests(unittest.TestCase):
         self.assertEqual(main.TICKETS, "10")
         self.assertEqual(main.T_MAX, "40")
         self.assertEqual(main.T_MIN, "5")
-        self.assertEqual(main.DATABASE, "postgresql://postgres:postgres@localhost:5432/postgres")
+        self.assertEqual(
+            main.DATABASE, "postgresql://postgres:postgres@localhost:5432/postgres"
+        )
 
         # Reset environment variables to original state
         os.environ.clear()
