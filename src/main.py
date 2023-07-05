@@ -59,6 +59,7 @@ class Main:
             dp = float(data[0]["data"])
             self.send_temperature_to_fastapi(date, dp)
             self.analyzeDatapoint(date, dp)
+            self.send_event_to_database(date, dp)
         except Exception as err:
             print(err)
 
@@ -74,14 +75,27 @@ class Main:
         print(details)
 
     def send_event_to_database(self, timestamp, event):
+       #try:
+            # To implement
+         #   pass
+      #  except requests.exceptions.RequestException as e:
+            # To implement
+         #   pass
         try:
-            # To implement
-            pass
-        except requests.exceptions.RequestException as e:
-            # To implement
-            pass
+            conn = psycopg2.connect(self.DATABASE)
+            cursor = conn.cursor()
+            insert_query = "INSERT INTO temperature (timestamp, event) VALUES (%s, %s)"
+            cursor.execute(insert_query, (timestamp, event))
+            conn.commit()
+            cursor.close()
+            conn.close()
+            print("Données insérées dans la base de données PostgreSQL.")
+        except psycopg2.Error as e:
+         print("Erreur lors de l'insertion des données dans la base de données PostgreSQL:", e)
+        
 
 
 if __name__ == "__main__":
     main = Main()
     main.start()
+
