@@ -1,7 +1,7 @@
 #configuration du static analysis pre-commit hook
 repos:
 -   repo: https://github.com/psf/black #black pour le formattage
-    rev: 23.3.0 
+    rev: 23.3.0
     hooks:
     -   id: black
         language_version: python3.8
@@ -15,4 +15,6 @@ repos:
     rev: 1.7.5
     hooks:
     -   id: bandit
-    
+        args: ['-c', 'bandit.yaml']
+        
+
