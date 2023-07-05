@@ -1,4 +1,4 @@
-# Use Python Alpine as base image
+# Use Python Alpine as base image for building
 FROM python:3.8-alpine as builder
 
 # Define working directory
@@ -19,10 +19,7 @@ RUN pipenv install --system --deploy && \
     apk del .build-deps
 
 # Runtime Image
-FROM python:3.8-alpine
-
-# Define working directory
-WORKDIR /app
+FROM gcr.io/distroless/python3
 
 # Copy installed packages from builder
 COPY --from=builder /usr/local /usr/local
@@ -30,8 +27,8 @@ COPY --from=builder /usr/local /usr/local
 # Copy application files
 COPY . /app
 
-# Expose the port your app listens on
-EXPOSE 80
+# Define working directory
+WORKDIR /app
 
 # Start application
 CMD ["pipenv", "run", "start"]
