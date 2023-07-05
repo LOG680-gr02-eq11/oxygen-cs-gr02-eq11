@@ -46,6 +46,23 @@ class MainTests(unittest.TestCase):
         os.environ.clear()
         os.environ.update(original_env)
 
+    def test_empty_app_token(self):
+        # Save original environment variables to restore them later
+        original_env = dict(os.environ)
+
+        # Set the environment variable APP_TOKEN as an empty string for testing
+        os.environ["APP_TOKEN"] = ""
+
+        # Initialize the main class
+        main = Main()
+
+        # Test if the APP_TOKEN is an empty string
+        self.assertEqual(main.TOKEN, "")
+
+        # Reset environment variables to original state
+        os.environ.clear()
+        os.environ.update(original_env)
+
 
 if __name__ == "__main__":
     unittest.main()
