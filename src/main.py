@@ -6,7 +6,6 @@ import time
 
 
 class Main:
-
     def __init__(self):
         self._hub_connection = None
         self.HOST = None  # Setup your host here
@@ -32,20 +31,27 @@ class Main:
             time.sleep(2)
 
     def setSensorHub(self):
-        self._hub_connection = (HubConnectionBuilder().with_url(
-            f"{self.HOST}/SensorHub?token={self.TOKEN}").configure_logging(
-                logging.INFO).with_automatic_reconnect({
+        self._hub_connection = (
+            HubConnectionBuilder()
+            .with_url(f"{self.HOST}/SensorHub?token={self.TOKEN}")
+            .configure_logging(logging.INFO)
+            .with_automatic_reconnect(
+                {
                     "type": "raw",
                     "keep_alive_interval": 10,
                     "reconnect_interval": 5,
                     "max_attempts": 999,
-                }).build())
+                }
+            )
+            .build()
+        )
 
         self._hub_connection.on("ReceiveSensorData", self.onSensorDataReceived)
         self._hub_connection.on_open(lambda: print("||| Connection opened."))
         self._hub_connection.on_close(lambda: print("||| Connection closed."))
-        self._hub_connection.on_error(lambda data: print(
-            f"||| An exception was thrown closed: {data.error}"))
+        self._hub_connection.on_error(
+            lambda data: print(f"||| An exception was thrown closed: {data.error}")
+        )
 
     def onSensorDataReceived(self, data):
         try:
@@ -65,7 +71,8 @@ class Main:
 
     def sendActionToHvac(self, date, action, nbTick):
         r = requests.get(
-            f"{self.HOST}/api/hvac/{self.TOKEN}/{action}/{nbTick}", timeout=5)
+            f"{self.HOST}/api/hvac/{self.TOKEN}/{action}/{nbTick}", timeout=5
+        )
         details = json.loads(r.text)
         print(details)
 
