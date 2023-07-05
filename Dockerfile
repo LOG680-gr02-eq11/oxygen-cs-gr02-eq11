@@ -1,26 +1,34 @@
-# Utilisez l'image de base Python appropriée
-FROM python:3.8
+# Use Python Alpine as base image for building
+FROM python:3.8-alpine as builder
 
-# Définissez le répertoire de travail dans le conteneur
+# Define working directory
 WORKDIR /app
 
-#Installez pipenv
-RUN pip install pipenv
-
-# Définir variable env
+# Set environment variable
 ENV PYTHONUNBUFFERED=1
 
-#Copiez le fichier pipfile.lock
+# Install build dependencies and pipenv
+RUN apk add --no-cache --virtual .build-deps gcc musl-dev && \
+    pip install --no-cache-dir pipenv
+
+# Copy Pipfile and Pipfile.lock
 COPY Pipfile Pipfile.lock ./
 
-#Installez depedences avec pipenv
-RUN pipenv install
+# Install dependencies with pipenv
+RUN pipenv install --system --deploy && \
+    apk del .build-deps
 
-# Copiez les fichiers de l'application dans le conteneur
+# Runtime Image
+FROM gcr.io/distroless/python3
+
+# Copy installed packages from builder
+COPY --from=builder /usr/local /usr/local
+
+# Copy application files
 COPY . /app
 
-# Exposez le port sur lequel votre application écoute
-EXPOSE 80
+# Define working directory
+WORKDIR /app
 
-# Démarrez l'application
+# Start application
 CMD ["pipenv", "run", "start"]
