@@ -14,7 +14,9 @@ class Main:
         self.TICKETS = os.environ.get("APP_TICKETS", "5")
         self.T_MAX = os.environ.get("APP_MAX_TEMPERATURE", "35")
         self.T_MIN = os.environ.get("APP_MIN_TEMPERATURE", "10")
-        self.DATABASE = os.environ.get("APP_DATABASE", "postgresql://postgres:postgres@localhost:5432/postgres")
+        self.DATABASE = os.environ.get(
+            "APP_DATABASE", "postgresql://postgres:postgres@localhost:5432/postgres"
+        )
 
     def __del__(self):
         if self._hub_connection is not None:
@@ -50,7 +52,9 @@ class Main:
         self._hub_connection.on("ReceiveSensorData", self.onSensorDataReceived)
         self._hub_connection.on_open(lambda: print("||| Connection opened."))
         self._hub_connection.on_close(lambda: print("||| Connection closed."))
-        self._hub_connection.on_error(lambda data: print(f"||| An exception was thrown closed: {data.error}"))
+        self._hub_connection.on_error(
+            lambda data: print(f"||| An exception was thrown closed: {data.error}")
+        )
 
     def onSensorDataReceived(self, data):
         try:
@@ -59,7 +63,6 @@ class Main:
             dp = float(data[0]["data"])
             self.send_temperature_to_fastapi(date, dp)
             self.analyzeDatapoint(date, dp)
-            self.send_event_to_database(date, dp)
         except Exception as err:
             print(err)
 
@@ -70,32 +73,21 @@ class Main:
             self.sendActionToHvac(date, "TurnOnHeater", self.TICKETS)
 
     def sendActionToHvac(self, date, action, nbTick):
-        r = requests.get(f"{self.HOST}/api/hvac/{self.TOKEN}/{action}/{nbTick}")
+        r = requests.get(
+            f"{self.HOST}/api/hvac/{self.TOKEN}/{action}/{nbTick}", timeout=5
+        )
         details = json.loads(r.text)
         print(details)
 
     def send_event_to_database(self, timestamp, event):
-       #try:
-            # To implement
-         #   pass
-      #  except requests.exceptions.RequestException as e:
-            # To implement
-         #   pass
         try:
-            conn = psycopg2.connect(self.DATABASE)
-            cursor = conn.cursor()
-            insert_query = "INSERT INTO temperature (timestamp, event) VALUES (%s, %s)"
-            cursor.execute(insert_query, (timestamp, event))
-            conn.commit()
-            cursor.close()
-            conn.close()
-            print("Données insérées dans la base de données PostgreSQL.")
-        except psycopg2.Error as e:
-         print("Erreur lors de l'insertion des données dans la base de données PostgreSQL:", e)
-        
+            # To implement
+            pass
+        except requests.exceptions.RequestException:
+            # To implement
+            pass
 
 
 if __name__ == "__main__":
     main = Main()
     main.start()
-

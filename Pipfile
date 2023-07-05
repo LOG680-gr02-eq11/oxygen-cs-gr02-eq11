@@ -10,6 +10,7 @@ pylint = "*"
 black = "*"
 flake8 = "*"
 bandit = "*"
+pytest = "*"
 
 [dev-packages]
 

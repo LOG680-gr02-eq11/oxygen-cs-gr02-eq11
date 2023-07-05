@@ -1,5 +1,5 @@
 import unittest
-from main import Main
+from src.main import Main
 import os
 
 
@@ -14,6 +14,9 @@ class MainTests(unittest.TestCase):
         self.assertEqual(main.DATABASE, "postgresql://postgres:postgres@localhost:5432/postgres")
 
     def test_custom_values(self):
+        # Save original environment variables to restore them later
+        original_env = dict(os.environ)
+
         # Set the environment variables with custom values for testing
         os.environ["APP_HOST"] = "http://34.95.34.5"
         os.environ["APP_TOKEN"] = "0FagpkvF4B"
@@ -22,12 +25,20 @@ class MainTests(unittest.TestCase):
         os.environ["APP_MIN_TEMPERATURE"] = "5"
         os.environ["APP_DATABASE"] = "postgresql://postgres:postgres@localhost:5432/postgres"
 
+        # Initialize the main class
         main = Main()
+
+        # Test the custom values
         self.assertEqual(main.HOST, "http://34.95.34.5")
+        self.assertEqual(main.TOKEN, "0FagpkvF4B")
         self.assertEqual(main.TICKETS, "10")
         self.assertEqual(main.T_MAX, "40")
         self.assertEqual(main.T_MIN, "5")
         self.assertEqual(main.DATABASE, "postgresql://postgres:postgres@localhost:5432/postgres")
+
+        # Reset environment variables to original state
+        os.environ.clear()
+        os.environ.update(original_env)
 
 
 if __name__ == "__main__":
