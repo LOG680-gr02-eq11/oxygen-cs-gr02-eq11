@@ -47,7 +47,7 @@ jobs:
         run: |
           pipenv run flake8
           pipenv run black --check .  
-          pipenv run bandit -r . 
+          pipenv run bandit -r -c bandit.yaml . 
 
   build-and-push-docker-image:
     needs: static-analysis
