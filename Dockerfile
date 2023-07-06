@@ -1,34 +1,17 @@
 # Use Python Alpine as base image for building
-FROM python:3.8-alpine as builder
+FROM python:3.8-alpine
 
 # Define working directory
 WORKDIR /app
 
-# Set environment variable
-ENV PYTHONUNBUFFERED=1
+# Copy requirements file
+COPY requirements.txt requirements.txt
 
-# Install build dependencies and pipenv
-RUN apk add --no-cache --virtual .build-deps gcc musl-dev && \
-    pip install --no-cache-dir pipenv
-
-# Copy Pipfile and Pipfile.lock
-COPY Pipfile Pipfile.lock ./
-
-# Install dependencies with pipenv
-RUN pipenv install --system --deploy && \
-    apk del .build-deps
-
-# Runtime Image
-FROM gcr.io/distroless/python3
-
-# Copy installed packages from builder
-COPY --from=builder /usr/local /usr/local
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application files
-COPY . /app
-
-# Define working directory
-WORKDIR /app
+COPY . .
 
 # Start application
-CMD ["pipenv", "run", "start"]
+CMD ["python", "src/main.py"]
