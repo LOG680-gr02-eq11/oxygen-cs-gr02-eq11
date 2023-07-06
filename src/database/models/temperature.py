@@ -1,7 +1,5 @@
-import datetime as _dt
-import sqlalchemy as _sql
-
 import database.db as _db
+import sqlalchemy as _sql
 
 
 class Temperature(_db.Base):
@@ -12,4 +10,3 @@ class Temperature(_db.Base):
     def __init__(self, temperature: dict):
         self.timestamp = temperature['timestamp']
         self.temperature = temperature['temperature']
-
