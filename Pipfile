@@ -11,6 +11,9 @@ black = "*"
 flake8 = "*"
 bandit = "*"
 pytest = "*"
+psycopg2 = "*"
+sqlalchemy = "*"
+pydantic = "*"
 
 [dev-packages]
 
