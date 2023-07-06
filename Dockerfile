@@ -1,5 +1,5 @@
-# Use Python Alpine as base image for building
-FROM python:3.8-alpine
+# Use Python image to build dependencies
+FROM python:3.8 as builder
 
 # Define working directory
 WORKDIR /app
@@ -10,8 +10,15 @@ COPY requirements.txt .
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy only necessary application files
-COPY src/ ./src/
+# Use Distroless as final base
+FROM gcr.io/distroless/python3-debian10
+
+# Copy required files from builder
+COPY --from=builder /app /app
+COPY src/ /app/src/
+
+# Define working directory
+WORKDIR /app
 
 # Start application
 CMD ["python", "src/main.py"]
