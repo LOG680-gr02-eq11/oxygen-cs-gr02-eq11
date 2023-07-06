@@ -13,6 +13,7 @@ bandit = "*"
 pytest = "*"
 psycopg2 = "*"
 sqlalchemy = "*"
+pydantic = "*"
 
 [dev-packages]
 
