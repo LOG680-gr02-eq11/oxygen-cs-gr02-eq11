@@ -56,11 +56,10 @@ jobs:
 
       - name: Run static analysis
         # black just checks that formatting is respected but won't reformat
-        # bandit -r is for recursivity
         run: |
-          pipenv run flake8
-          pipenv run black --check .  
-          pipenv run bandit -r -c bandit.yaml .
+          flake8
+          black --check .
+          bandit -r -c bandit.yaml .
 
   build-and-push-docker-image:
     needs: static-analysis
