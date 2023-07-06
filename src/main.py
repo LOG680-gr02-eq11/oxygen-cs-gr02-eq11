@@ -11,7 +11,7 @@ class Main:
     def __init__(self):
         self._hub_connection = None
         self.HOST = os.environ.get("APP_HOST", "http://34.95.34.5")
-        self.TOKEN = os.environ.get("APP_TOKEN", "0FagpkvF4B")
+        self.TOKEN = os.environ.get("APP_TOKEN")
         self.TICKETS = os.environ.get("APP_TICKETS", "5")
         self.T_MAX = os.environ.get("APP_MAX_TEMPERATURE", "35")
         self.T_MIN = os.environ.get("APP_MIN_TEMPERATURE", "10")
@@ -28,6 +28,9 @@ class Main:
         self.setSensorHub()
 
     def start(self):
+        if self.TOKEN is None:
+            raise Exception("The token variable is empty.")
+
         self.setup()
         self._hub_connection.start()
 
