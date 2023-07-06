@@ -23,15 +23,14 @@ def get_db():
 
 def create_event(timestamp: _dt.datetime, temperature: str):
     temperature_entry = {}
-    temperature_entry['timestamp'] = timestamp[0:19]
-    temperature_entry['temperature'] = temperature
+    temperature_entry["timestamp"] = timestamp[0:19]
+    temperature_entry["temperature"] = temperature
 
     db = get_db()
     create_temperature_entry(temperature_entry, next(db))
 
 
-def create_temperature_entry(
-        temperature: _schemasTemperature.CreateTemperature, db):
+def create_temperature_entry(temperature: _schemasTemperature.CreateTemperature, db):
     temperature = _modelsTemperature.Temperature(temperature)
 
     db.add(temperature)

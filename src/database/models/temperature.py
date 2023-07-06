@@ -8,5 +8,5 @@ class Temperature(_db.Base):
     temperature = _sql.Column(_sql.String, index=True)
 
     def __init__(self, temperature: dict):
-        self.timestamp = temperature['timestamp']
-        self.temperature = temperature['temperature']
+        self.timestamp = temperature["timestamp"]
+        self.temperature = temperature["temperature"]
