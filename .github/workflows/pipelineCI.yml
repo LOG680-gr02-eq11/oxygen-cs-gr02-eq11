@@ -20,19 +20,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Setup Docker Database to test
+        run: |
+          docker compose up -d
+
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
 
-      - name: Install dependencies using pipenv
+      - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install pipenv
-          pipenv install --dev --deploy
+          pip install --no-cache-dir -r requirements.txt
 
       - name: Run tests
-        run: pipenv run pytest tests/test_main.py
+        run: python -m pytest tests/*
 
   static-analysis:
     needs: build
@@ -48,17 +50,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install pipenv
-          pipenv install --dev
+          pip install --no-cache-dir -r requirements.txt
 
       - name: Run static analysis
         # black just checks that formatting is respected but won't reformat
-        # bandit -r is for recursivity
         run: |
-          pipenv run flake8
-          pipenv run black --check .  
-          pipenv run bandit -r -c bandit.yaml .
+          flake8
+          black --check .
+          bandit -r -c bandit.yaml .
 
   build-and-push-docker-image:
     needs: static-analysis

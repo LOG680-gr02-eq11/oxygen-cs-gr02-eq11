@@ -4,6 +4,7 @@ import requests
 import json
 import time
 import os
+import service
 
 
 class Main:
@@ -17,6 +18,7 @@ class Main:
         self.DATABASE = os.environ.get(
             "APP_DATABASE", "postgresql://postgres:postgres@localhost:5432/postgres"
         )
+        service.add_tables()
 
     def __del__(self):
         if self._hub_connection is not None:
@@ -26,6 +28,9 @@ class Main:
         self.setSensorHub()
 
     def start(self):
+        if self.TOKEN is None:
+            raise Exception("The token variable is empty.")
+
         self.setup()
         self._hub_connection.start()
 
@@ -81,11 +86,14 @@ class Main:
 
     def send_event_to_database(self, timestamp, event):
         try:
-            # To implement
+            service.create_event(timestamp, event)
             pass
-        except requests.exceptions.RequestException:
-            # To implement
+        except requests.exceptions.RequestException as e:
+            print(e)
             pass
+
+    def send_temperature_to_fastapi(self, date, dp):
+        self.send_event_to_database(date, dp)
 
 
 if __name__ == "__main__":
