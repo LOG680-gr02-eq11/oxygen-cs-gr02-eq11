@@ -1,5 +1,4 @@
 import datetime as _dt
-from typing import Optional
 import pydantic as _pydantic
 
 
