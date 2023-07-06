@@ -20,6 +20,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Setup Docker Database to test
+        run: |
+          docker compose up -d
+
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
